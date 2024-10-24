@@ -50,9 +50,8 @@ public class MyService extends Service {
 		Intent notificationIntent = new Intent(this, MainActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
 		PendingIntent.FLAG_UPDATE_CURRENT);
-		
 		return new NotificationCompat.Builder(this, CHANNEL_ID)
-		.setContentTitle("Socket Service")
+		.setContentTitle("Find Me")
 		.setContentText("Running...")
 		//.setSmallIcon(R.drawable.ic_notification) // Replace with your icon
 		.setContentIntent(pendingIntent)
@@ -67,7 +66,7 @@ public class MyService extends Service {
 		lon = intent.getStringExtra("lon");
 		
 		if (serverIp == null || serverPort == 0) {
-			showToast("Error: IP or Port not provided");
+			showToast("Error : IP or Port not provided");
 			stopSelf();
 			return START_NOT_STICKY;
 		}
@@ -91,7 +90,7 @@ public class MyService extends Service {
 	
 	private void handleCommunication(InputStream input, OutputStream output) {
 		try {
-			// Example: Sending a message to the server
+			// Example : Sending a message to the server
 			String messageToSend = lat+" === "+lon;
 			output.write(messageToSend.getBytes());
 			/*
@@ -104,7 +103,7 @@ public class MyService extends Service {
 			}
 			*/
 			} catch (IOException e) {
-			showToast("Communication Error: " + e.getMessage());
+			showToast("Communication Error : " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -125,16 +124,16 @@ public class MyService extends Service {
 	private final BroadcastReceiver stopReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			stopSelf(); // Stop the service
+			stopSelf(); 
 		}
 	};
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		return null; // We don't provide binding
+		return null; 
 	}
 	
 	public void showToast(String msg) {
-		Toast.makeText(this, "Message: " + msg, Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 	}
 }
