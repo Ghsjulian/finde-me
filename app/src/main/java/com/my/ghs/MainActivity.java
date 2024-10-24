@@ -2,6 +2,7 @@ package com.my.ghs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
 	private EditText ipAddress, port;
 	private Button connect, disconnect;
+	GetLocation location;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
 		port = findViewById(R.id.port);
 		connect = findViewById(R.id.connect);
 		disconnect = findViewById(R.id.disconnect);
+		// Get The Cordinator Lat And Log
+		location = new GetLocation(this);
+		double data[] = location.getLocation();
+		String latitude = String.valueOf(data[0]);
+		String longitude = String.valueOf(data[1]);
 
 		// Call the Click Button Here
 		connect.setOnClickListener(new View.OnClickListener() {
@@ -33,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 				// start the service 
 				Intent serviceIntent = new Intent(MainActivity.this, MyService.class);
 				serviceIntent.putExtra("ip", inputValue);
+				serviceIntent.putExtra("lat", latitude);
+				serviceIntent.putExtra("lon", longitude);
 				serviceIntent.putExtra("port", Integer.parseInt(port.getText().toString()));
 				startService(serviceIntent);
 			}
@@ -48,10 +57,6 @@ public class MainActivity extends AppCompatActivity {
 				showToast("Foreground Service Stopped!");
 			}
 		});
-
-		// Start The Intent Here 
-		//	Intent serviceIntent = new Intent(this, SocketService.class);
-		//	startService(serviceIntent);
 	}
 
 	public void showToast(String msg) {
