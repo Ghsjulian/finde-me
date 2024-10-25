@@ -37,6 +37,23 @@ public class MainActivity extends AppCompatActivity {
 		String latitude = String.valueOf(data[0]);
 		String longitude = String.valueOf(data[1]);
         
+		// Get Information 
+		
+		new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetInfo fetcher = new GetInfo();
+                String ipAddress = fetcher.getIpAddress();
+                if (ipAddress != null) {
+                    // Use the IP address (e.g., update UI)
+                    runOnUiThread(() -> showToast(ipAddress)); 
+                } else {
+                    runOnUiThread(()->showToast("Failed to retrieve IP address."));
+                }
+            }
+        }).start();
+		
+		
 		
 		/*
 		// Call The Connect Button 
@@ -48,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 		/*
 		Call The Foreground Service If The Address Exist
 		*/
-	     StartForeground(saveIp,savePort,latitude,longitude);
+	    // StartForeground(saveIp,savePort,latitude,longitude);
 		/*
 		*
 		*
