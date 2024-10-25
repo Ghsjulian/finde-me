@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Button;
 import android.view.View;
+import androidx.annotation.NonNull;
 
 public class MainActivity extends AppCompatActivity {
 	private EditText ipAddress, port;
 	private Button connect, disconnect;
 	GetLocation location;
+	
 	
 	// Saved Ip Address And Port Number 
 	private String saveIp = "127.0.0.1";
@@ -34,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
 		double data[] = location.getLocation();
 		String latitude = String.valueOf(data[0]);
 		String longitude = String.valueOf(data[1]);
-
+        
+		
 		/*
 		// Call The Connect Button 
 		// For Connecting With The Server
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 		/*
 		Call The Foreground Service If The Address Exist
 		*/
-	    StartForeground(saveIp,savePort,latitude,longitude);
+	     StartForeground(saveIp,savePort,latitude,longitude);
 		/*
 		*
 		*
@@ -86,4 +89,5 @@ public class MainActivity extends AppCompatActivity {
 		serviceIntent.putExtra("lon", longitude);
 		startService(serviceIntent);
 	}
+	
 }

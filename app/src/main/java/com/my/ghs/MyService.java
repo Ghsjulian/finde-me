@@ -75,6 +75,7 @@ public class MyService extends Service {
 			@Override
 			public void run() {
 				try {
+					//showToast("Message Sent Successfully!");
 					socket = new Socket(serverIp, serverPort);
 					InputStream input = socket.getInputStream();
 					OutputStream output = socket.getOutputStream();
@@ -91,17 +92,8 @@ public class MyService extends Service {
 	private void handleCommunication(InputStream input, OutputStream output) {
 		try {
 			// Example : Sending a message to the server
-			String messageToSend = lat+" === "+lon;
+			String messageToSend = lat+"@"+lon;
 			output.write(messageToSend.getBytes());
-			/*
-			// Example: Receiving a message from the server
-			byte[] buffer = new byte[1024];
-			int bytesRead = input.read(buffer);
-			if (bytesRead != -1) {
-				String receivedMessage = new String(buffer, 0, bytesRead);
-				showToast("Received: " + receivedMessage); // Display the received message
-			}
-			*/
 			} catch (IOException e) {
 			showToast("Communication Error : " + e.getMessage());
 			e.printStackTrace();
